@@ -24,6 +24,24 @@ app.get('/results', function(req, res) {
   })
 });
 
+app.get('/corona', function(req, res) {
+  let url = 'https://api.covid19india.org/data.json';
+  request(url, function(err, data) {
+    if(err) {
+      console.log(err);
+    } else {
+      let first = data.body
+      let result = JSON.parse(first);
+      let active = result.statewise[1].active;
+      let confirmed = result.statewise[1].confirmed;
+      let deaths = result.statewise[1].deaths;
+      let recovered = result.statewise[1].recovered;
+      let updated = result.statewise[1].lastupdatedtime;
+      res.send(result.statewise[1]);
+    }
+  })
+})
+
 app.listen('3000', function() {
   console.log('Movie App has Started..!!')
 })
